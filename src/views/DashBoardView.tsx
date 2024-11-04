@@ -21,7 +21,7 @@ export default function DashBoardView() {
             <p className="text-2xl font-light text-gray-500 mt-5">Admin and manage your projects</p>
 
             <nav className="my-5">
-                <Link to='/project/create' className="bg-purple-400 hover:bg-purple-500 px-10 py-3 text-white text-xl
+                <Link to='/projects/create' className="bg-purple-400 hover:bg-purple-500 px-10 py-3 text-white text-xl
                 font-bold cursor-pointer transition-colors
             ">New Project</Link>
             </nav>
@@ -65,7 +65,7 @@ export default function DashBoardView() {
                                                 </Link>
                                             </Menu.Item>
                                             <Menu.Item>
-                                                <Link to={``}
+                                                <Link to={`/projects/${project._id}/edit`}
                                                       className='block px-3 py-1 text-sm leading-6 text-gray-900'>
                                                     Editar Proyecto
                                                 </Link>
