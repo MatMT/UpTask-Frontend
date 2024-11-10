@@ -20,10 +20,4 @@ export default function EditProjectView() {
         return <Navigate to="/404" />
 
     if(data) return <EditProjectForm data={data} projectId={projectId} />;
-
-    return (
-        <>
-            <h1>EditProjectView component</h1>
-        </>
-    );
 };
