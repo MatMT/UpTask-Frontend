@@ -24,6 +24,7 @@ export const projectSchema = z.object({
     projectName: z.string(),
     clientName: z.string(),
     description: z.string(),
+    tasks: z.array(taskSchema)
 });
 
 export const dashboardProjectSchema = z.array(
