@@ -2,6 +2,10 @@ import { useForm } from "react-hook-form";
 import { UserLoginForm } from "@/types/index";
 import ErrorMessage from "@/components/ErrorMessage";
 import {Link} from "react-router-dom";
+import {useMutation} from "@tanstack/react-query";
+import {authenticateUser} from "@/api/AuthAPI.ts";
+import {toast} from "react-toastify";
+
 
 export default function LoginView() {
 
@@ -11,13 +15,23 @@ export default function LoginView() {
     }
     const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: initialValues })
 
-    const handleLogin = (formData: UserLoginForm) => { }
+    const {mutate} = useMutation({
+        mutationFn: authenticateUser,
+        onError: (error) => {
+            toast.error(error.message)
+        },
+        onSuccess: (data) => {
+            toast.success(data)
+        }
+    })
+
+    const handleLogin = (formData: UserLoginForm) => mutate(formData)
 
     return (
         <>
             <form
                 onSubmit={handleSubmit(handleLogin)}
-                className="space-y-8 p-10 bg-white"
+                className="space-y-8 p-10 bg-white rounded-lg"
                 noValidate
             >
                 <div className="flex flex-col gap-5">
@@ -28,13 +42,13 @@ export default function LoginView() {
                     <input
                         id="email"
                         type="email"
-                        placeholder="Email de Registro"
+                        placeholder="Email"
                         className="w-full p-3  border-gray-300 border"
                         {...register("email", {
-                            required: "El Email es obligatorio",
+                            required: "The Email is required",
                             pattern: {
                                 value: /\S+@\S+\.\S+/,
-                                message: "E-mail no válido",
+                                message: "Invalid E-mail",
                             },
                         })}
                     />
@@ -50,10 +64,10 @@ export default function LoginView() {
 
                     <input
                         type="password"
-                        placeholder="Password de Registro"
+                        placeholder="Password"
                         className="w-full p-3  border-gray-300 border"
                         {...register("password", {
-                            required: "El Password es obligatorio",
+                            required: "The Password is required",
                         })}
                     />
                     {errors.password && (
@@ -63,7 +77,7 @@ export default function LoginView() {
 
                 <input
                     type="submit"
-                    value='Iniciar Sesión'
+                    value='Log in'
                     className="bg-fuchsia-600 hover:bg-fuchsia-700 w-full p-3  text-white font-black  text-xl cursor-pointer"
                 />
             </form>
