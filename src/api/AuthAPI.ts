@@ -3,7 +3,7 @@ import {isAxiosError} from "axios";
 import {
     ConfirmToken,
     ForgotPasswordForm,
-    RequestConfirmationCodeForm,
+    RequestConfirmationCodeForm, ResetPasswordForm,
     UserLoginForm,
     UserRegistrationForm
 } from "@/types/index.ts";
@@ -59,6 +59,30 @@ export async function authenticateUser(formData: UserLoginForm) {
 export async function forgotPassword(formData: ForgotPasswordForm) {
     try {
         const url = '/auth/forgot-password';
+        const {data} = await api.post<string>(url, formData);
+        return data;
+    } catch (error) {
+        if (isAxiosError(error) && isAxiosError(error)) {
+            throw new Error(error.response!.data.error);
+        }
+    }
+}
+
+export async function validateToken(formData: ConfirmToken) {
+    try {
+        const url = '/auth/validate-token';
+        const {data} = await api.post<string>(url, formData);
+        return data;
+    } catch (error) {
+        if (isAxiosError(error) && isAxiosError(error)) {
+            throw new Error(error.response!.data.error);
+        }
+    }
+}
+
+export async function updatePasswordWithToken({formData, token}: { formData: ResetPasswordForm, token: ConfirmToken['token'] }) {
+    try {
+        const url = `/auth/update-password/${token}`;
         const {data} = await api.post<string>(url, formData);
         return data;
     } catch (error) {

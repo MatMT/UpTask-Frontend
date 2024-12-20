@@ -29,7 +29,7 @@ export default function Router() {
                     <Route path="/auth/confirm-account" element={<ConfirmAccountView/>}/>
                     <Route path="/auth/request-confirm-token" element={<RequestConfirmTokenView />}/>
                     <Route path="/auth/forgot-password" element={<ForgotPasswordView />}/>
-                    <Route path="/auth/new-password" element={<NewPasswordView />}/>
+                    <Route path="/auth/reset-password" element={<NewPasswordView />}/>
                 </Route>
             </Routes>
         </BrowserRouter>
