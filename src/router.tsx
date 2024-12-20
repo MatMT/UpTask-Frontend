@@ -9,6 +9,8 @@ import LoginView from "@/views/auth/LoginView.tsx";
 import RegisterView from "@/views/auth/RegisterView.tsx";
 import ConfirmAccountView from "@/views/auth/ConfirmAccountView.tsx";
 import RequestConfirmTokenView from "@/views/auth/RequestConfirmTokenView.tsx";
+import ForgotPasswordView from "@/views/auth/ForgotPasswordView.tsx";
+import NewPasswordView from "@/views/auth/NewPasswordView.tsx";
 
 export default function Router() {
     return (
@@ -26,6 +28,8 @@ export default function Router() {
                     <Route path="/auth/register" element={<RegisterView/>}/>
                     <Route path="/auth/confirm-account" element={<ConfirmAccountView/>}/>
                     <Route path="/auth/request-confirm-token" element={<RequestConfirmTokenView />}/>
+                    <Route path="/auth/forgot-password" element={<ForgotPasswordView />}/>
+                    <Route path="/auth/new-password" element={<NewPasswordView />}/>
                 </Route>
             </Routes>
         </BrowserRouter>

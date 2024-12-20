@@ -84,6 +84,7 @@ export default function LoginView() {
 
             <nav className="mt-10 flex flex-col space-y-4">
                 <Link to="/auth/register" className="text-center text-gray-300 font-normal">Create an Account</Link>
+                <Link to="/auth/forgot-password" className="text-center text-gray-300 font-normal">Forgot your Password? restore</Link>
             </nav>
         </>
     )
