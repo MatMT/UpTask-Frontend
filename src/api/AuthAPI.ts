@@ -5,7 +5,7 @@ import {
     ForgotPasswordForm,
     RequestConfirmationCodeForm, ResetPasswordForm,
     UserLoginForm,
-    UserRegistrationForm
+    UserRegistrationForm, userSchema
 } from "@/types/index.ts";
 
 export async function createAccount(formData: UserRegistrationForm) {
@@ -48,6 +48,7 @@ export async function authenticateUser(formData: UserLoginForm) {
     try {
         const url = '/auth/login';
         const {data} = await api.post<string>(url, formData);
+        localStorage.setItem('AUTH_TOKEN', data);
         return data;
     } catch (error) {
         if (isAxiosError(error) && isAxiosError(error)) {
@@ -80,11 +81,27 @@ export async function validateToken(formData: ConfirmToken) {
     }
 }
 
-export async function updatePasswordWithToken({formData, token}: { formData: ResetPasswordForm, token: ConfirmToken['token'] }) {
+export async function updatePasswordWithToken({formData, token}: {
+    formData: ResetPasswordForm,
+    token: ConfirmToken['token']
+}) {
     try {
         const url = `/auth/update-password/${token}`;
         const {data} = await api.post<string>(url, formData);
         return data;
+    } catch (error) {
+        if (isAxiosError(error) && isAxiosError(error)) {
+            throw new Error(error.response!.data.error);
+        }
+    }
+}
+
+export async function getUser() {
+    try {
+        const {data} = await api(`/auth/user`);
+        const response = userSchema.safeParse(data);
+        if (response.success)
+            return response.data;
     } catch (error) {
         if (isAxiosError(error) && isAxiosError(error)) {
             throw new Error(error.response!.data.error);
