@@ -1,6 +1,6 @@
 import {useForm} from "react-hook-form";
 import {useParams} from "react-router-dom";
-import {useMutation} from "@tanstack/react-query";
+import {useMutation,} from "@tanstack/react-query";
 import ErrorMessage from "../ErrorMessage";
 import {TeamMemberForm} from "@/types/index.ts";
 import {findUserByEmail} from "@/api/TeamApi.ts";
@@ -24,6 +24,11 @@ export default function AddMemberForm() {
         mutation.mutate(data);
     }
 
+    const resetData = () => {
+        reset(),
+            mutation.reset()
+    }
+
     return (
         <>
 
@@ -37,7 +42,7 @@ export default function AddMemberForm() {
                     <label
                         className="font-normal text-2xl"
                         htmlFor="name"
-                    >E-mail de Usuario</label>
+                    >User E-mail</label>
                     <input
                         id="name"
                         type="text"
@@ -65,7 +70,7 @@ export default function AddMemberForm() {
                 <div className="mt-10">
                     {mutation.isPending && <p className="text-center">Searching...</p>}
                     {mutation.error && <ErrorMessage>{mutation.error.message}</ErrorMessage>}
-                    {(mutation.data && !mutation.isPending) && <SearchResult user={mutation.data}/>}
+                    {(mutation.data && !mutation.isPending) && <SearchResult user={mutation.data} reset={resetData} />}
                 </div>
             </form>
         </>
