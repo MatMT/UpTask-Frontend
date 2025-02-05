@@ -1,6 +1,6 @@
 import {Fragment} from 'react';
 import {Dialog, Transition} from '@headlessui/react';
-import {Navigate, useLocation, useNavigate, useParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {getTaskById, updateStatus} from "@/api/TaskApi.ts";
 import {toast} from "react-toastify";
@@ -54,7 +54,7 @@ export default function TaskModalDetails() {
 
     if (isError) {
         toast.error(error.message, {toastId: 'error'});
-        return <Navigate to={`/projects/${projectId}`}/>; // redirigir de forma programada
+        // return <Navigate to={`/projects/${projectId}`}/>; // redirigir de forma programada
     }
 
     if (data) return (
@@ -89,9 +89,15 @@ export default function TaskModalDetails() {
                             >
                                 <Dialog.Panel
                                     className="w-full max-w-4xl transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all p-16">
-                                    <p className='text-sm text-slate-400'>Created at: {formatDate(data.createdAt)} </p>
-                                    <p className='text-sm text-slate-400'>Updated at:
+
+
+                                    <p className='text-sm text-slate-500'>Created at: {formatDate(data.createdAt)} </p>
+                                    <p className='text-sm text-slate-500'>Updated at:
                                         : {formatDate(data.updatedAt)} </p>
+
+                                    {data.completedBy && <p className='text-sm text-slate-600 font-bold mt-3'>Last modified by: {data.completedBy.name}</p>}
+
+
                                     <Dialog.Title
                                         as="h3"
                                         className="font-black text-4xl text-slate-600 my-5"

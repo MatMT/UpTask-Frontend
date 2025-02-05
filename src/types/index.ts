@@ -2,6 +2,7 @@ import {z} from 'zod';
 
 /** Auth & Users */
 export const authSchema = z.object({
+    _id: z.string(),
     name: z.string(),
     email: z.string(),
     password: z.string(),
@@ -37,6 +38,7 @@ export const taskSchema = z.object({
     description: z.string(),
     project: z.string(),
     status: taskStatusSchema,
+    completedBy: userSchema.nullable(),
     createdAt: z.string(),
     updatedAt: z.string(),
 })

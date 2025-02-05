@@ -64,7 +64,7 @@ export default function TaskList({tasks, canEdit}: TaskListProps) {
 
                         <ul className='mt-5 space-y-5'>
                             {groupedTasks[status].length === 0 ? (
-                                <li className="text-gray-600 text-center pt-3">No hay tareas</li>
+                                <li className="text-gray-600 text-center pt-3">There are no Task's</li>
                             ) : (
                                 groupedTasks[status].map(task => <TaskCard key={task._id} task={task} canEdit={canEdit}/>)
                             )}
