@@ -3,6 +3,7 @@ import TaskCard from "@/components/tasks/TaskCard.tsx";
 
 type TaskListProps = {
     tasks: Task[];
+    canEdit: boolean;
 }
 
 const statusStyles: { [key: string]: string } = {
@@ -13,7 +14,7 @@ const statusStyles: { [key: string]: string } = {
     completed: 'border-t-emerald-500',
 };
 
-export default function TaskList({tasks}: TaskListProps) {
+export default function TaskList({tasks, canEdit}: TaskListProps) {
     // Definimos un array con todos los estados posibles de una tarea
     // 'as const' hace que TypeScript trate esto como valores literales inmutables
     // esto ayuda con el tipado y previene modificaciones accidentales
@@ -65,7 +66,7 @@ export default function TaskList({tasks}: TaskListProps) {
                             {groupedTasks[status].length === 0 ? (
                                 <li className="text-gray-600 text-center pt-3">No hay tareas</li>
                             ) : (
-                                groupedTasks[status].map(task => <TaskCard key={task._id} task={task}/>)
+                                groupedTasks[status].map(task => <TaskCard key={task._id} task={task} canEdit={canEdit}/>)
                             )}
                         </ul>
                     </div>

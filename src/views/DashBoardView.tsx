@@ -6,8 +6,11 @@ import {Link} from "react-router-dom";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {deleteProject, getProjects} from "@/api/ProjectAPI";
 import {toast} from "react-toastify";
+import {useAuth} from "@/hooks/useAuth.ts";
+import {isManager} from "@/utils/policies.ts";
 
 export default function DashBoardView() {
+    const {data: user, isLoading: authLoading} = useAuth();
     const {data, isLoading} = useQuery({
         queryKey: ["projects"],
         queryFn: getProjects
@@ -27,12 +30,14 @@ export default function DashBoardView() {
         }
     })
 
-    if (isLoading)
+    if (isLoading && authLoading)
         return <p>Loading...</p>
 
-    if (data) return (
+    console.log(user, "==", data)
+
+    if (data && user) return (
         <>
-            <h1 className="text-5xl font-black">My Projects</h1>
+            <h1 className="text-5xl font-black">My Projects - {user?.name}</h1>
             <p className="text-2xl font-light text-gray-500 mt-5">Admin and manage your projects</p>
 
             <nav className="my-5">
@@ -47,9 +52,22 @@ export default function DashBoardView() {
                         <li key={project._id} className="flex justify-between gap-x-6 px-5 py-10">
                             <div className="flex min-w-0 gap-x-4">
                                 <div className="min-w-0 flex-auto space-y-2">
-                                    <Link to={`/projects/${project._id}`}
-                                          className="text-gray-600 cursor-pointer hover:underline text-3xl font-bold"
-                                    >{project.projectName}</Link>
+                                    <div className="flex gap-3 items-center justify-center">
+
+                                        <Link to={`/projects/${project._id}`}
+                                              className=" text-gray-600 cursor-pointer hover:underline text-3xl font-bold"
+                                        >{project.projectName}</Link>
+
+                                        {
+                                            isManager(project.manager, user._id) ? (
+                                                <span className='badge text-purple-700 bg-purple-50 border-purple-700 border'>Own Project</span>
+                                            ) : (
+                                                <span className='badge text-amber-600 bg-amber-50 border-amber-500 border'>Shared Project</span>
+                                            )
+                                        }
+
+                                    </div>
+
                                     <p className="text-sm text-gray-400">
                                         Cliente: {project.clientName}
                                     </p>
@@ -76,26 +94,31 @@ export default function DashBoardView() {
                                             <Menu.Item>
                                                 <Link to={`/projects/${project._id}`}
                                                       className='block px-3 py-1 text-sm leading-6 text-gray-900'>
-                                                    Ver Proyecto
+                                                    See details
                                                 </Link>
                                             </Menu.Item>
-                                            <Menu.Item>
-                                                <Link to={`/projects/${project._id}/edit`}
-                                                      className='block px-3 py-1 text-sm leading-6 text-gray-900'>
-                                                    Editar Proyecto
-                                                </Link>
-                                            </Menu.Item>
-                                            <Menu.Item>
-                                                <button
-                                                    type='button'
-                                                    className='block px-3 py-1 text-sm leading-6 text-red-500'
-                                                    onClick={() => {
-                                                        mutate(project._id)
-                                                    }}
-                                                >
-                                                    Eliminar Proyecto
-                                                </button>
-                                            </Menu.Item>
+                                            {project.manager === user._id && (
+                                                <>
+
+                                                    <Menu.Item>
+                                                        <Link to={`/projects/${project._id}/edit`}
+                                                              className='block px-3 py-1 text-sm leading-6 text-gray-900'>
+                                                            Edit Project
+                                                        </Link>
+                                                    </Menu.Item>
+                                                    <Menu.Item>
+                                                        <button
+                                                            type='button'
+                                                            className='block px-3 py-1 text-sm leading-6 text-red-500'
+                                                            onClick={() => {
+                                                                mutate(project._id)
+                                                            }}
+                                                        >
+                                                            Delete Project
+                                                        </button>
+                                                    </Menu.Item>
+                                                </>
+                                            )}
                                         </Menu.Items>
                                     </Transition>
                                 </Menu>

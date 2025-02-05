@@ -42,6 +42,8 @@ export default function ProjectTeamView() {
             <p className="text-2xl font-light text-gray-500 mt-5">Manage the team members for this project</p>
 
             <nav className="my-5 flex gap-3">
+
+
                 <button
                     type="button"
                     className="bg-purple-400 hover:bg-purple-500 py-3 px-10 text-white text-xl font-bold cursor-pointer transition-colors "

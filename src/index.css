@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.badge {
+    @apply max-w-[7rem] text-center block text-xs font-bold px-1.5 py-1 rounded-xl;
+}
