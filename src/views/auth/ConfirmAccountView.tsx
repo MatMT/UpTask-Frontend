@@ -8,6 +8,7 @@ import {toast} from "react-toastify";
 
 export default function ConfirmAccountView() {
     const [token, setToken] = useState<ConfirmToken['token']>('');
+    const [confirmated, setConfirmated] = useState(false);
 
     const {mutate} = useMutation({
         mutationFn: confirmAccount,
@@ -16,6 +17,7 @@ export default function ConfirmAccountView() {
         },
         onSuccess: (data) => {
             toast.success(data)
+            setConfirmated(true);
         }
     })
 
@@ -51,6 +53,10 @@ export default function ConfirmAccountView() {
             </form>
 
             <nav className="mt-10 flex flex-col space-y-4">
+                {confirmated && (
+                    <Link to="/auth/login" className="text-center p-4 bg-fuchsia-600 text-white rounded-xl font-normal">Log In with your account</Link>
+                )}
+
                 <Link
                     to='/auth/request-confirm-token'
                     className="text-center text-gray-300 font-normal"

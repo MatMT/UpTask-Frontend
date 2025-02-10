@@ -6,6 +6,7 @@ import {getTaskById, updateStatus} from "@/api/TaskApi.ts";
 import {toast} from "react-toastify";
 import {formatDate} from "@/utils/utils.ts";
 import {TaskStatus} from "@/types/index.ts";
+import ActivityHistory from "@/components/tasks/ActivityHistory.tsx";
 
 const allStatuses = [
     'pending',
@@ -95,16 +96,17 @@ export default function TaskModalDetails() {
                                     <p className='text-sm text-slate-500'>Updated at:
                                         : {formatDate(data.updatedAt)} </p>
 
-                                    {data.completedBy && <p className='text-sm text-slate-600 font-bold mt-3'>Last modified by: {data.completedBy.name}</p>}
-
-
                                     <Dialog.Title
                                         as="h3"
-                                        className="font-black text-4xl text-slate-600 my-5"
+                                        className="font-black text-4xl text-slate-600 mt-5"
                                     >
                                         {data.name}
                                     </Dialog.Title>
+
                                     <p className='text-lg text-slate-500 mb-2'>Description: {data.description}</p>
+
+                                    {data.completedBy.length > 0 && <ActivityHistory data={data} />}
+
                                     <div className='my-5 space-y-3'>
                                         <label className='font-bold'>Status:
                                         </label>

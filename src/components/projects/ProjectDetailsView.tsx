@@ -1,4 +1,4 @@
-import {Link, Navigate, useNavigate, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import {useQuery} from "@tanstack/react-query";
 import {getProjectById} from "@/api/ProjectAPI.ts";
 import AddTaskModal from "@/components/tasks/AddTaskModal.tsx";
@@ -8,6 +8,7 @@ import TaskModalDetails from "@/components/tasks/TaskModalDetail.tsx";
 import {useAuth} from "@/hooks/useAuth.ts";
 import {isManager} from "@/utils/policies.ts";
 import {useMemo} from "react";
+import {toast} from "react-toastify";
 
 export default function ProjectDetailsView() {
     const {data: user, isLoading: authLoading} = useAuth();
@@ -26,8 +27,9 @@ export default function ProjectDetailsView() {
     if (isLoading && authLoading)
         return "Loading...";
 
-   if (isError)
-        return <Navigate to="/404"/>
+    if (isError) {
+        toast.error("Something went wrong!");
+    }
 
     if (data && user) return (
         <>
