@@ -7,6 +7,7 @@ import {toast} from "react-toastify";
 import {formatDate} from "@/utils/utils.ts";
 import {TaskStatus} from "@/types/index.ts";
 import ActivityHistory from "@/components/tasks/ActivityHistory.tsx";
+import NotesPanel from "@/components/notes/NotesPanel.tsx";
 
 const allStatuses = [
     'pending',
@@ -123,6 +124,9 @@ export default function TaskModalDetails() {
 
                                         </select>
                                     </div>
+
+                                    <NotesPanel />
+
                                 </Dialog.Panel>
                             </Transition.Child>
                         </div>

@@ -87,3 +87,14 @@ const teamMemberSchema = userSchema.pick(
 export const teamMembersSchema = z.array(teamMemberSchema);
 export type TeamMember = z.infer<typeof teamMemberSchema>;
 export type TeamMemberForm = Pick<TeamMember, 'email'>;
+
+/** Note */
+export const noteSchema = z.object({
+    _id: z.string(),
+    content: z.string(),
+    createdBy: userSchema,
+    task: z.string()
+});
+
+export type Note = z.infer<typeof noteSchema>;
+export type NoteFormData = Pick<Note, "content">;
