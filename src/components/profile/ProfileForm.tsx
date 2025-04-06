@@ -1,6 +1,9 @@
 import { useForm } from "react-hook-form"
 import {User, UserProfileForm} from "@/types/index.ts";
 import ErrorMessage from "../ErrorMessage"
+import {useMutation} from "@tanstack/react-query";
+import {updateProfile} from "@/api/ProfileAPI.ts";
+import {toast} from "react-toastify";
 
 type ProfileFormProps = {
     data: User
@@ -9,8 +12,24 @@ type ProfileFormProps = {
 export default function ProfileForm({ data } : ProfileFormProps) {
     const { register, handleSubmit, formState: { errors } } = useForm<UserProfileForm>({ defaultValues: data })
 
-    const handleEditProfile = (formData: UserProfileForm) => {
+    const {mutate} = useMutation({
+        mutationFn: updateProfile,
+        onError: (error) => toast.error(error.message),
+        onSuccess: (data) => {
+            toast.success(data)
+        }
+    })
 
+    const handleEditProfile = (formData: UserProfileForm) =>
+    {
+        const isEmailChanged = data.email !== formData.email;
+
+        // If the email is changed, we need to send the email in the payload
+        const payload = isEmailChanged ? formData : (
+            ({ email, ...rest }) => rest)
+        (formData);
+
+        mutate(payload);
     }
 
     return (
