@@ -1,4 +1,4 @@
-import {z} from 'zod';
+import { z } from 'zod';
 
 /** Auth & Users */
 export const authSchema = z.object({
@@ -23,7 +23,7 @@ export type ConfirmToken = Pick<Auth, 'token'>;
 export const userSchema = authSchema.pick({
     name: true,
     email: true,
-}).extend({_id: z.string(),})
+}).extend({ _id: z.string(), })
 
 export type User = z.infer<typeof userSchema>
 export type UserProfileForm = Pick<User, 'name'> & {
@@ -77,7 +77,7 @@ export const projectSchema = z.object({
     clientName: z.string(),
     description: z.string(),
     tasks: z.array(taskSchema),
-    manager: z.string(userSchema.pick({_id: true, name: true})),
+    manager: z.string(userSchema.pick({ _id: true, name: true })),
 });
 
 export const dashboardProjectSchema = z.array(
@@ -90,6 +90,11 @@ export const dashboardProjectSchema = z.array(
     })
 );
 
+export const editProjecSchema = projectSchema.pick({
+    projectName: true,
+    clientName: true,
+    description: true,
+});
 export type Project = z.infer<typeof projectSchema>;
 export type ProjectFormData = Pick<Project, 'projectName' | 'clientName' | 'description'>
 
